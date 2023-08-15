@@ -33,6 +33,17 @@ export default function ProductForm({
   if (goToProducts) {
     router.push("/products");
   }
+
+  async function uploadImages(ev) {
+    const files = ev.target?.files;
+    if (files.length > 0) {
+      const data = new FormData();
+      files.forEach((file) => data.append(file));
+      const res = await axios.post("/api/upload", data);
+      console.log(res.data);
+    }
+  }
+
   return (
     <form onSubmit={saveProduct}>
       <label>Product Name</label>
@@ -44,10 +55,12 @@ export default function ProductForm({
       />
       <label>Photos</label>
       <div className="mb-2">
-        <button className="w-28 h-28 border flex flex-col items-center justify-center">
+        <label className="w-28 h-28 border flex flex-col items-center justify-center rounded-md drop-shadow-sm hover:drop-shadow-md bg-gray-300 cursor-pointer">
           <PublishIcon />
-          Upload
-        </button>
+          <div>Upload</div>
+          <input type="file" className="hidden" onChange={uploadImages} />
+        </label>
+
         {!images?.length && <div>No Photos for this Product</div>}
       </div>
       <label>Description</label>
