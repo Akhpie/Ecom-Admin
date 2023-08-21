@@ -13,6 +13,7 @@ import {
   Paper,
   TableSortLabel,
 } from "@mui/material";
+import Button from "@mui/material/Button";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
@@ -61,6 +62,7 @@ export default function Products() {
       >
         Add new Product
       </Link>
+
       <br></br>
       <br></br>
       {/* <table>
@@ -97,7 +99,7 @@ export default function Products() {
           </TableHead>
           <TableBody>
             {visibleProducts.map((product) => (
-              <TableRow key={product.id} className="bg-gray-100">
+              <TableRow key={product._id} className="bg-gray-100">
                 <TableCell>{product.title}</TableCell>
                 <TableCell>
                   <Link href={"/products/edit/" + product._id}>

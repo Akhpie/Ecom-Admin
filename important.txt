@@ -1,0 +1,13 @@
+aws policy name: policy-s3-aks-next-ecom
+username: aks-nxt-ecom
+
+S3_ACCESS_KEY_ID = "AKIAUDDPL522HCXUZHXO"
+S3_SECRET_ACCESS_KEY = "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"
+
+lib to be added:
+yarn add aws-sdk/client-s3
+------------------------------------
+MONGO DB:
+
+username: ecom-Admin
+password: Admin123

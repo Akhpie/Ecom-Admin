@@ -23,3 +23,7 @@ label {
 .btn-primary {
   @apply bg-cyan-900 text-white py-1 px-4 rounded-lg;
 }
+img {
+  max-height: 100%;
+  /* max-width: 300px; */
+}

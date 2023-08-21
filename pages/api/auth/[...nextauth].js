@@ -12,3 +12,5 @@ export default NextAuth({
   ],
   adapter: MongoDBAdapter(clientPromise),
 });
+// const { google } = require("googleapis");
+// const apis = google.getSupportedAPIs();
