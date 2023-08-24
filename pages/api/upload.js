@@ -3,10 +3,17 @@ import multiparty from "multiparty";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import fs from "fs";
 import mime from "mime-types";
+import mongoose from "mongoose";
+import { mongooseConnect } from "@/lib/mongoose";
+import { authOptions, isAdminRequest } from "./auth/[...nextauth]";
 
 const bucketName = "aks-next-ecom";
 
 export default async function (req, res) {
+  await mongooseConnect();
+  // await isAdminRequest(req, res);
+  await isAdminRequest(req, res);
+
   const form = new multiparty.Form();
   const { fields, files } = await new Promise((resolve, reject) => {
     form.parse(req, (err, fields, files) => {

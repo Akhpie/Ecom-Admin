@@ -1,11 +1,21 @@
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 
 export default function Nav() {
   const inActiveLink = "flex gap-1 p-1";
-  const activeLink = inActiveLink + " bg-white text-blue-900 rounded-lg";
+  const activeLink =
+    inActiveLink + " bg-white text-cyan-900 rounded-lg font-semibold";
   const router = useRouter();
+  const inactiveIcon = "w-6 h-6";
+  const activeIcon = inactiveIcon + " fill-purple-400";
   const { pathname } = router;
+
+  async function logout() {
+    await router.push("/");
+    await signOut();
+  }
 
   return (
     <aside className="text-white p-4">
@@ -17,6 +27,7 @@ export default function Nav() {
           stroke-width="1.5"
           stroke="currentColor"
           class="w-6 h-6"
+          // className={activeIcon}
         >
           <path
             stroke-linecap="round"
@@ -25,10 +36,11 @@ export default function Nav() {
           />
         </svg>
 
-        <span className=" text-green-200 text-lg font-semibold">
+        <span className=" text-white-400 text-lg font-semibold">
           Ecommerce-Admin
         </span>
       </Link>
+
       <nav className="flex flex-col gap-2">
         {/* Dashboard */}
         <Link
@@ -41,7 +53,7 @@ export default function Nav() {
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-6 h-6"
+            className={pathname === "/" ? activeIcon : inactiveIcon}
           >
             <path
               stroke-linecap="round"
@@ -64,6 +76,7 @@ export default function Nav() {
             stroke-width="1.5"
             stroke="currentColor"
             class="w-6 h-6"
+            className={pathname === "/products" ? activeIcon : inactiveIcon}
           >
             <path
               stroke-linecap="round"
@@ -88,6 +101,7 @@ export default function Nav() {
             stroke-width="1.5"
             stroke="currentColor"
             class="w-6 h-6"
+            className={pathname === "/categories" ? activeIcon : inactiveIcon}
           >
             <path
               stroke-linecap="round"
@@ -110,6 +124,7 @@ export default function Nav() {
             stroke-width="1.5"
             stroke="currentColor"
             class="w-6 h-6"
+            className={pathname === "/orders" ? activeIcon : inactiveIcon}
           >
             <path
               stroke-linecap="round"
@@ -132,6 +147,7 @@ export default function Nav() {
             stroke-width="1.5"
             stroke="currentColor"
             class="w-6 h-6"
+            className={pathname === "/settings" ? activeIcon : inactiveIcon}
           >
             <path
               stroke-linecap="round"
@@ -146,6 +162,25 @@ export default function Nav() {
           </svg>
           Settings
         </Link>
+
+        {/* Logout */}
+        <button className={inActiveLink} onClick={logout}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+            />
+          </svg>
+          Logout
+        </button>
       </nav>
     </aside>
   );

@@ -11,18 +11,23 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TableSortLabel,
+  TablePagination,
 } from "@mui/material";
-import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-
+import Button from "@mui/material/Button";
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("title");
   const itemsPerPage = 10;
+
+  // Pagination states
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     axios.get("/api/products").then((response) => {
@@ -54,33 +59,19 @@ export default function Products() {
 
   return (
     <Layout>
-      <br></br>
+      <div className="mb-4 mt-4">
+        <Link href={"/products/new"}>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="medium"
+            endIcon={<AddCircleIcon />}
+          >
+            Add new Product
+          </Button>
+        </Link>
+      </div>
 
-      <Link
-        href={"/products/new"}
-        className=" bg-cyan-900 p-2 rounded-md text-white border-2 border-cyan-800"
-      >
-        Add new Product
-      </Link>
-
-      <br></br>
-      <br></br>
-      {/* <table>
-        <thead>
-          <tr>
-            <td>Product Name</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr>
-              <td>{product.title}</td>
-              <td>Buttons</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -103,17 +94,28 @@ export default function Products() {
                 <TableCell>{product.title}</TableCell>
                 <TableCell>
                   <Link href={"/products/edit/" + product._id}>
-                    <span className="bg-cyan-600 p-1 rounded-md text-white px-2 inline-flex gap-1 mr-1">
-                      EDIT
-                      <EditNoteOutlinedIcon />
-                    </span>
+                    <Button
+                      variant="contained"
+                      color="info"
+                      size="small"
+                      endIcon={<EditNoteOutlinedIcon />}
+                    >
+                      edit
+                    </Button>
                   </Link>
+
                   <Link
                     href={"/products/delete/" + product._id}
-                    className="bg-cyan-600 p-1 rounded-md text-white px-2 inline-flex gap-1"
+                    className="mx-2"
                   >
-                    DELETE
-                    <DeleteOutlineOutlinedIcon />
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      endIcon={<DeleteOutlineOutlinedIcon />}
+                    >
+                      Delete
+                    </Button>
                   </Link>
                 </TableCell>
               </TableRow>
