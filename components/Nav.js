@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 
-export default function Nav() {
+export default function Nav({ show }) {
   const inActiveLink = "flex gap-1 p-1";
   const activeLink =
     inActiveLink + " bg-white text-cyan-900 rounded-lg font-semibold";
@@ -18,7 +18,7 @@ export default function Nav() {
   }
 
   return (
-    <aside className="text-white p-4">
+    <aside className={" text-white p-4 "}>
       <Link href={"/"} className=" flex gap-1 mb-4 mr-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
