@@ -7,7 +7,9 @@ export default function Home() {
   return (
     <Layout>
       <div className="text-cyan-900 flex justify-between">
-        <h2 style={{ fontSize: "22px" }}>Hello There, {session?.user?.name}</h2>
+        <h2 style={{ fontSize: "22px" }} className="capitalize">
+          Hello There, {session?.user?.name}
+        </h2>
         <div className="flex bg-cyan-800 text-white p-2 rounded-md gap-1">
           <img
             src={session?.user?.image}
