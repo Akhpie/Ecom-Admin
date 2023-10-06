@@ -5,7 +5,8 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import PublishIcon from "@mui/icons-material/Publish";
 import Spinner from "./Spinner";
-import ReactSortable from "react-sortablejs";
+import { ReactSortable } from "react-sortablejs";
+import Sortable from "react-sortablejs";
 
 export default function ProductForm({
   _id,
@@ -25,6 +26,7 @@ export default function ProductForm({
   const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(assignedCategory || "");
+  const [imageToDelete, setImageToDelete] = useState(null);
   const [productProperties, setProductProperties] = useState(
     assignedProperties || {}
   );
@@ -80,8 +82,8 @@ export default function ProductForm({
     }
   }
 
-  function updateImagesOrder() {
-    console.log(arguments);
+  function updateImagesOrder(images) {
+    setImages(images);
   }
 
   function setProductProp(propName, value) {
@@ -152,12 +154,19 @@ export default function ProductForm({
 
       <label>Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
-        {!!images?.length &&
-          images.map((link) => (
-            <div key={link} className="inline-block h-28">
-              <img src={link} className="rounded-md"></img>
-            </div>
-          ))}
+        <ReactSortable
+          list={images}
+          setList={updateImagesOrder}
+          className="flex flex-wrap gap-2"
+        >
+          {!!images?.length &&
+            images.map((link) => (
+              <div key={link} className="inline-block h-28">
+                <img src={link} className="rounded-md"></img>
+                {/* <button onClick={() => setImageToDelete(index)}>Delete</button> */}
+              </div>
+            ))}
+        </ReactSortable>
 
         {isUploading && (
           <div className="h-28 p-1 flex items-center">
@@ -171,6 +180,11 @@ export default function ProductForm({
         </label>
 
         {/* {!images?.length && <div>No Photos for this Product</div>} */}
+        {/* {imageToDelete !== null && (
+          <div>
+            <button onClick={deleteSelectedImage}>Delete Selected Image</button>
+          </div>
+        )} */}
       </div>
       <label>Description</label>
       <textarea

@@ -3,6 +3,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth, { getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { Admin } from "@/models/Admin";
+import { mongooseConnect } from "@/lib/mongoose";
 
 const adminEmails = [
   "akhilpie3@gmail.com",
@@ -14,6 +15,7 @@ const adminEmails = [
 
 async function isAdminEmail(email) {
   return true;
+  mongooseConnect();
   return !!(await Admin.findOne({ email }));
 }
 

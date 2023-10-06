@@ -1,7 +1,6 @@
-import Layout from "@/components/Layout";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Pagination } from "@mui/lab";
 import {
   Table,
@@ -12,22 +11,29 @@ import {
   TableRow,
   Paper,
   TablePagination,
+  TextField,
+  Button,
+  InputAdornment,
+  Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import Button from "@mui/material/Button";
+import Layout from "@/components/Layout";
+import SearchIcon from "@mui/icons-material/Search";
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("title");
   const itemsPerPage = 10;
-
-  // Pagination states
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  // State for the search query
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     axios.get("/api/products").then((response) => {
@@ -45,17 +51,16 @@ export default function Products() {
     setOrderBy(property);
   };
 
-  const sortedProducts = products.sort((a, b) => {
-    if (orderBy === "title") {
-      return order === "asc"
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
-    }
-    return 0;
+  // Filter products based on the search query
+  const filteredProducts = products.filter((product) => {
+    return product.title.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleProducts = products.slice(startIndex, startIndex + itemsPerPage);
+  const visibleProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   return (
     <Layout>
@@ -72,19 +77,36 @@ export default function Products() {
         </Link>
       </div>
 
+      <div className="mb-4">
+        <TextField
+          label="Search Products"
+          variant="outlined"
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
+
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow className=" bg-cyan-600">
+            <TableRow className="bg-cyan-600">
               <TableCell>
-                <div className=" text-white text-md font-medium">
+                <Typography variant="h7" style={{ color: "#fff" }}>
                   Product Name
-                </div>
+                </Typography>
               </TableCell>
               <TableCell>
-                <div div className=" text-white text-md font-medium">
+                <Typography variant="h7" style={{ color: "#fff" }}>
                   Actions
-                </div>
+                </Typography>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -100,7 +122,7 @@ export default function Products() {
                       size="small"
                       endIcon={<EditNoteOutlinedIcon />}
                     >
-                      edit
+                      Edit
                     </Button>
                   </Link>
 
@@ -125,7 +147,7 @@ export default function Products() {
       </TableContainer>
       <Pagination
         className="float-right"
-        count={Math.ceil(products.length / itemsPerPage)}
+        count={Math.ceil(filteredProducts.length / itemsPerPage)}
         page={currentPage}
         onChange={onPageChange}
       />
