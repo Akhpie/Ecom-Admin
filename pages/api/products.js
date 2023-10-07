@@ -22,7 +22,7 @@ export default async function handle(req, res) {
       res.json(await Product.find());
     }
   }
-  mongoose.Promise = clientPromise;
+  // mongoose.Promise = clientPromise;
 
   // CREATE PRODUCT
   if (method === "POST") {
