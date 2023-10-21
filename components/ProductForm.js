@@ -7,6 +7,7 @@ import PublishIcon from "@mui/icons-material/Publish";
 import Spinner from "./Spinner";
 import { ReactSortable } from "react-sortablejs";
 import Sortable from "react-sortablejs";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function ProductForm({
   _id,
@@ -71,9 +72,7 @@ export default function ProductForm({
       for (const file of files) {
         data.append("file", file);
       }
-      // const res = await axios.post("/api/upload", data, {
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // });
+
       const res = await axios.post("/api/upload", data);
       setImages((oldImages) => {
         return [...oldImages, ...res.data.links];
@@ -82,6 +81,7 @@ export default function ProductForm({
     }
   }
 
+  // to update the order of images
   function updateImagesOrder(images) {
     setImages(images);
   }
@@ -106,6 +106,15 @@ export default function ProductForm({
         propertiesToFill.push(...parentCat.properties);
         catInfo = parentCat;
       }
+    }
+  }
+
+  // to delete an image
+  function deleteImage(index) {
+    if (window.confirm("Are you sure you want to delete this image?")) {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      setImages(newImages);
     }
   }
 
@@ -151,7 +160,7 @@ export default function ProductForm({
             </div>
           ))}
       </div>
-
+      <div className="my-2"></div>
       <label>Photos</label>
       <div className="mb-2 flex flex-wrap gap-2">
         <ReactSortable
@@ -160,10 +169,12 @@ export default function ProductForm({
           className="flex flex-wrap gap-2"
         >
           {!!images?.length &&
-            images.map((link) => (
+            images.map((link, index) => (
               <div key={link} className="inline-block h-28">
-                <img src={link} className="rounded-md"></img>
-                {/* <button onClick={() => setImageToDelete(index)}>Delete</button> */}
+                <button onClick={() => deleteImage(index)}>
+                  <ClearIcon color="error" size="small" />
+                </button>
+                <img src={link} className="rounded-md "></img>
               </div>
             ))}
         </ReactSortable>
@@ -178,14 +189,9 @@ export default function ProductForm({
           <div>Upload</div>
           <input type="file" className="hidden" onChange={uploadImages} />
         </label>
-
-        {/* {!images?.length && <div>No Photos for this Product</div>} */}
-        {/* {imageToDelete !== null && (
-          <div>
-            <button onClick={deleteSelectedImage}>Delete Selected Image</button>
-          </div>
-        )} */}
       </div>
+
+      <div className="my-8"></div>
       <label>Description</label>
       <textarea
         placeholder="Description"
