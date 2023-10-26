@@ -156,6 +156,8 @@ export default function OrdersPage() {
                     {order.city} {order.postalCode} {order.country}
                     <br />
                     {order.streetAddress}
+                    <br />
+                    {order.phoneNumber}
                   </TableCell>
                   <TableCell>
                     {order.line_items.map((l) => (

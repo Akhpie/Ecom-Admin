@@ -171,7 +171,14 @@ export default function ProductForm({
           {!!images?.length &&
             images.map((link, index) => (
               <div key={link} className="inline-block h-28">
-                <button onClick={() => deleteImage(index)}>
+                <button
+                  onClick={() => deleteImage(index)}
+                  style={{
+                    border: "2px inset red",
+                    borderRadius: "5px",
+                    position: "absolute",
+                  }}
+                >
                   <ClearIcon color="error" size="small" />
                 </button>
                 <img src={link} className="rounded-md "></img>

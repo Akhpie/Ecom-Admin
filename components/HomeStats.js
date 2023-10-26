@@ -29,7 +29,7 @@ export default function HomeStats() {
 
   if (isLoading) {
     return (
-      <div className="my-4">
+      <div className="my-4 text-center">
         <Spinner fullWidth={true} />
       </div>
     );
